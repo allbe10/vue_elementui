@@ -116,4 +116,61 @@ router.post('/adduser',async(ctx) => {
     }
 })
 
+// 用户数据获取
+router.get('/getuserList',async(ctx) => {
+    const User = mongoose.model('User')
+    try {
+        const result = await User.find().exec()
+        if(result) {
+            console.log(result)
+            ctx.body = {
+                code:200,
+                message:result
+            }
+        }
+        else {
+            ctx.body = {
+                code:500,
+                message:'服务器出现问题！'
+            }
+        }
+    }
+    catch(error) {
+        console.log(error)
+        ctx.body = {
+            code:500,
+            message:'服务器出现问题！'
+        }
+    }
+})
+
+
+// 删除一个用户
+router.post('/deleteuser',async(ctx) => {
+    console.log(ctx.request.body)
+    const User = mongoose.model('User')
+    try {
+        const result = await User.deleteOne({_id:ctx.request.body.userId}).exec()
+        if(result) {
+            console.log(result)
+            ctx.body = {
+                code:200,
+                message:'用户删除成功！'
+            }
+        }
+        else {
+            ctx.body = {
+                code:500,
+                message:'服务器出现问题！'
+            }
+        }
+    }
+    catch(error) {
+        console.log(error)
+        ctx.body = {
+            code:500,
+            message:'服务器出现问题！'
+        }
+    }
+})
 module.exports=router;

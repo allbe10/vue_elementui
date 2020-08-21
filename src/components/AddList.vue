@@ -8,6 +8,7 @@ import Goods from '../components/Goods.vue'
 import Index from '../components/Index.vue'
 import Category from '../components/Category.vue'
 import CategorySub from '../components/CategorySub.vue'
+import UserList from '../components/UserList'
 export default {
     props:['componentName'],
     data() {
@@ -29,6 +30,10 @@ export default {
                 case '120':
                 //这里是值对应的处理
                 return CategorySub
+                break
+                case '130':
+                //这里是值对应的处理
+                return UserList
 		        break
 	            default:
                 //这里是没有找到对应的值处理

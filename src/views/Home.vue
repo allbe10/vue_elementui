@@ -53,6 +53,7 @@ import Index from '../components/Index.vue'
 import AddList from '../components/AddList.vue'
 import UpdataList from '../components/UpdataList.vue'
 import News from '../components/News.vue'
+import UserList from '../components/UserList'
 export default {
     data() {
         return {
@@ -185,6 +186,10 @@ export default {
                 //这里是值对应的处理
                 return CategorySubList
                 break
+                case '42':
+                //这里是值对应的处理
+                return UserList
+		        break
                 case '100':
                 //这里是值对应的处理
                 return AddList
