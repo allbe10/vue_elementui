@@ -1,3 +1,5 @@
+这是一个前端为vue+elementui，后端基于node.js的koa2后台管理系统  
+ 
 # vue-elementui
 
 ## Project setup
