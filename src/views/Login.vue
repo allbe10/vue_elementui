@@ -6,8 +6,8 @@
             </div>
             <div class="login_txt">
                 <el-form ref="form" :model="form" :rules="rules"  >
-                    <el-form-item prop="username">
-                        <el-input v-model="form.username" prefix-icon="el-icon-user" placeholder="请输入用户名" :disabled="disabled"></el-input>
+                    <el-form-item prop="adminName">
+                        <el-input v-model="form.adminName" prefix-icon="el-icon-user" placeholder="请输入管理员名" :disabled="disabled"></el-input>
                     </el-form-item>
                     <el-form-item prop="password">
                         <el-input v-model="form.password" prefix-icon="el-icon-lock" type="password" placeholder="请输入密码" :disabled="disabled"></el-input>
@@ -30,16 +30,16 @@ export default {
     data() {
         return {
             form:{
-                username:'',
+                adminName:'',
                 password:'',
             },
             rules:{
-                username:[
+                adminName:[
                     {
-                        required:true,message:'用户名不能为空！',trigger:'blur'
+                        required:true,message:'管理员名不能为空！',trigger:'blur'
                     },
                     {
-                        min:3,max:8,message:'用户名控制在3到8个字符！',trigger:'blur'
+                        min:3,max:8,message:'管理员名控制在3到8个字符！',trigger:'blur'
                     }
                 ],
                 password:[
@@ -56,55 +56,56 @@ export default {
     },
     methods: {
         doLogin(form) {
-            console.log(this.form.username,this.form.password)  //打印用户输入的用户名和密码
+            console.log(this.form.adminName,this.form.password)  //打印用户输入的用户名和密码
             this.$refs[form].validate(async valid => {
                 console.log(valid)    //打印校验结果，校验通过才能发送请求
                 if(!valid) return;
                     try {
-                    const result = await this.$http.post('/user/login', {
-                    username :this.form.username,
-                    password :this.form.password
-                    })
-                    if(result) {
-                        const {code ,message,token } = result.data
-                        console.log(result.status)   //打印响应体的状态
-                        console.log(code,message)   //打印code，message
-                        if(code==200 && message) {
-                            Message({
-                                message: message,
-                                type: 'success',
-                                center:'true',
-                                duration:'2000'
-                            });
-                            Message.close()
-                            localStorage.setItem('token',token)
-                            this.$store.commit('setToken',token)
-                            console.log(this.$store.state.token)
-                            const redirect = this.$route.query.redirect || '/'
-                            setTimeout(() => {
-                                this.$router.push(redirect)
-                            },2000)
-                        }else {
+                        const result = await this.$http.post('/admin/login', {
+                            adminName :this.form.adminName,
+                            password :this.form.password
+                        })
+                        if(result) {
+                            const {code ,message,token,adminId } = result.data
                             console.log(result.status)   //打印响应体的状态
-                            Message({
-                                message: message,
+                            console.log(code,message)   //打印code，message
+                            if(code==200 && message) {
+                                Message({
+                                    message: message,
+                                    type: 'success',
+                                    center:'true',
+                                    duration:'2000'
+                                });
+                                Message.close()
+                                localStorage.setItem('token',token)
+                                this.$store.commit('setToken',token)
+                                this.$store.commit('setadminId',adminId)
+                                const redirect = this.$route.query.redirect || '/'
+                                setTimeout(() => {
+                                    this.$router.push(redirect)
+                                },2000)
+                            }else {
+                                console.log(result.status)   //打印响应体的状态
+                                Message({
+                                    message: message,
+                                    type: 'error',
+                                    center:'true',
+                                    duration:'2000'
+                                });
+                                Message.close()
+                            }
+                        }
+                    }
+                    catch(error) {
+                        console.log(error)    //打印不能发送请求的原因
+                        Message({
+                            message: '网络出现问题！',
                                 type: 'error',
                                 center:'true',
                                 duration:'2000'
-                            });
-                            Message.close()
-                            }
+                        });
+                        Message.close()
                     }
-                }catch(error) {
-                    console.log(error)    //打印不能发送请求的原因
-                    Message({
-                        message: '网络出现问题！',
-                        type: 'error',
-                        center:'true',
-                        duration:'2000'
-                    });
-                     Message.close()
-                }
             }) 
         },
         resetLogin(form) {

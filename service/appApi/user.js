@@ -13,7 +13,6 @@ router.post('/login',async(ctx) => {
     try {
         const resuserName = await User.findOne({username:username}).exec()
         if(resuserName) {
-            console.log('11111111111')
             let newUser = new User()
             const respassWord = await newUser.comparePassword(password,resuserName.password)
             console.log(respassWord)

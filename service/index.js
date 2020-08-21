@@ -11,6 +11,7 @@ let upload = require('./appApi/upload.js')
 let goods = require('./appApi/goods.js')
 let category = require('./appApi/category.js')
 let news = require('./appApi/news.js')
+let admin = require('./appApi/admin.js')
 
 //立即执行函数
 ;(async() =>{
@@ -82,6 +83,7 @@ router.use('/test',upload.routes())
 router.use('/goods',goods.routes())
 router.use('/category',category.routes())
 router.use('/news',news.routes())
+router.use('/admin',admin.routes())
 
 //加载路由中间件
 app.use(router.routes())

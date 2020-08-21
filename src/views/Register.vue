@@ -7,7 +7,7 @@
             <div class="login_txt">
                 <el-form ref="form" :model="form" :rules="rules"  >
                     <el-form-item prop="username">
-                        <el-input v-model="form.username" prefix-icon="el-icon-user" placeholder="请输入用户名"></el-input>
+                        <el-input v-model="form.adminName" prefix-icon="el-icon-user" placeholder="请输入管理员名"></el-input>
                     </el-form-item>
                     <el-form-item prop="password">
                         <el-input v-model="form.password" prefix-icon="el-icon-lock" type="password" placeholder="请输入密码"></el-input>
@@ -33,18 +33,18 @@ export default {
     data() {
         return {
             form:{
-                username:'',
+                adminName:'',
                 password:'',
                 phone:'',
                 email:'',
             },
             rules:{
-                username:[
+                adminName:[
                     {
-                        required:true,message:'用户名不能为空！',trigger:'blur'
+                        required:true,message:'管理员名不能为空！',trigger:'blur'
                     },
                     {
-                        min:3,max:8,message:'用户名控制在3到8个字符！',trigger:'blur'
+                        min:3,max:8,message:'管理员名控制在3到8个字符！',trigger:'blur'
                     }
                 ],
                 password:[
@@ -78,16 +78,18 @@ export default {
                 console.log(valid)    //打印校验结果，校验通过才能发送请求
                 if(!valid) return;
                 try {
-                    const result = await this.$http.post('/user/register', {
-                        username :this.form.username,
+                    const data = {
+                        adminName :this.form.adminName,
                         password :this.form.password,
+                        isSuper:false,
                         phone :this.form.phone,
                         email :this.form.email
+                    }
+                    const result = await this.$http.post('/admin/register', {
+                        data:data
                     })
                     if(result) {
                         const {code ,message} = result.data
-                        console.log(result.status)   //打印响应体的状态
-                        console.log(code,message)   //打印code，message
                         if(code==200 && message) {
                             const redirect = this.$route.query.redirect
                             console.log(redirect)

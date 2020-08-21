@@ -172,7 +172,6 @@ export default {
     },
     computed : {
         currentView(){
-            console.log('333333333执行了')
             switch(this.componentName){
 	            case '11':
                 //这里是值对应的处理

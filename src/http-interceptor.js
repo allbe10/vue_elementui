@@ -20,6 +20,7 @@ axios.interceptors.response.use(
             const {code,message} = response.data
             if(code == -1) {
                 store.commit('setToken','')
+                store.commit('setadminId','')
                 localStorage.removeItem('token')
                 Message({
                     message: message,
@@ -37,6 +38,7 @@ axios.interceptors.response.use(
             console.log(err.response)
             const message = err.response.data.message
             store.commit('setToken','')
+            store.commit('setadminId','')
             localStorage.removeItem('token')
             Message({
                 message: message,
