@@ -66,7 +66,7 @@ export default {
                             password :this.form.password
                         })
                         if(result) {
-                            const {code ,message,token,adminId } = result.data
+                            const {code ,message,token } = result.data
                             console.log(result.status)   //打印响应体的状态
                             console.log(code,message)   //打印code，message
                             if(code==200 && message) {
@@ -79,7 +79,10 @@ export default {
                                 Message.close()
                                 localStorage.setItem('token',token)
                                 this.$store.commit('setToken',token)
-                                this.$store.commit('setadminId',adminId)
+                                if(this.$store.getters.getToken) {
+                                    let adminId = token.slice(14)
+                                    this.$store.commit('setAdminId',adminId)
+                                }
                                 const redirect = this.$route.query.redirect || '/'
                                 setTimeout(() => {
                                     this.$router.push(redirect)

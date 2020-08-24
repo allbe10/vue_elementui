@@ -6,14 +6,22 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     token:localStorage.token || '',
-    adminId:'',
+    adminId:''
   },
   mutations: {
     setToken(state,token) {
       state.token = token
     },
-    setadminId(state,adminId) {
+    setAdminId(state,adminId) {
       state.adminId = adminId
+    },
+  },
+  getters : {
+    getToken(state) {
+      return state.token
+    },
+    getAdminId(state) {
+      return state.adminId
     }
   },
   actions: {

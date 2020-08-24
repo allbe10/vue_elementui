@@ -12,7 +12,7 @@ exports.initSchemas = () =>{
 exports.connect = () => {
     //连接数据库
     mongoose.set('useCreateIndex', true) //加上这个
-    mongoose.connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
+    mongoose.connect(db, { useNewUrlParser: true, useUnifiedTopology: true ,useFindAndModify: false })
 
     let maxConnectTimes = 0 
 

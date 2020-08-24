@@ -1,4 +1,10 @@
-var time = Date.now()
-console.log(time)
-var time1 = new Date(time)
-console.log(time1 instanceof Date)
+var time = {
+    a:'d',
+    b:'c'
+}
+var x= ''
+var arr =[]
+for(x in time) {
+    arr.push(x)
+}
+console.log(arr)

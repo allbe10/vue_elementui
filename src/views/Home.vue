@@ -54,6 +54,7 @@ import AddList from '../components/AddList.vue'
 import UpdataList from '../components/UpdataList.vue'
 import News from '../components/News.vue'
 import UserList from '../components/UserList'
+import Admin from '../components/Admin'
 export default {
     data() {
         return {
@@ -147,6 +148,8 @@ export default {
         checkIslogin() {
             if(localStorage.token) {
                 this.isLogin = false
+                const adminId = this.$store.getters.getToken.slice(14)
+                this.$store.commit('setAdminId',adminId)
             }
             else {
                 this.isLogin = true
@@ -185,6 +188,10 @@ export default {
                 //这里是值对应的处理
                 return CategorySubList
                 break
+                case '41':
+                //这里是值对应的处理
+                return Admin
+		        break
                 case '42':
                 //这里是值对应的处理
                 return UserList

@@ -42,8 +42,7 @@ app.use(async(ctx,next) => {
     if(/^\/user/.test(ctx.request.path)) {
         if(ctx.request.path == '/user/login' || ctx.request.headers.token || ctx.request.path == '/user/register') {
             if(ctx.request.headers.token) {
-                console.log(ctx.request.headers.token)
-                const time = ctx.request.headers.token.slice(3)
+                const time = ctx.request.headers.token.slice(0,13)
                 const timeNow = ((new Date())).getTime()
                 const newTime = timeNow - time
                 if(newTime>8640000) {

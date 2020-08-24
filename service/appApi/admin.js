@@ -35,7 +35,7 @@ router.post('/register',async(ctx) => {
 router.post('/getadmin',async(ctx) => {
     const Admin = mongoose.model('Admin')
     try {
-        const res = await Admin.findOne(ctx.request.body)
+        const res = await Admin.findOne({_id:ctx.request.body.id}).exec()
         if(res) {
             ctx.body = {
                 code:200,
@@ -78,16 +78,13 @@ router.post('/login',async(ctx) => {
                     ctx.body = {
                         code:200,
                         message:'用户登录成功！',
-                        token:'lsc'+time,
-                        adminId:resuserName._id
+                        token:time + '+' + resuserName._id
                     }
                 }
                 else {
                     ctx.body = {
                         code:500,
-                        message:'用户登录失败！',
-                        token:'lsc'+time,
-                        errinfo:'登录时间插入失败！'  
+                        message:'用户登录失败！',  
                     }
                 }
             }
@@ -114,5 +111,32 @@ router.post('/login',async(ctx) => {
     }
 })
 
+//管理员更新信息接口
+router.post('/updata',async(ctx) => {
+    const Admin = mongoose.model('Admin')
+    const data = ctx.request.body.data
+    const id = ctx.request.body.id
+    let res = ''
+    try {
+        const dataLength = Object.keys(data)
+        res = await Admin.findByIdAndUpdate({_id:id},data,{new:true})
+        if(res) {
+            ctx.body = {
+                code:200,
+                message:'信息修改成功'
+            }
+        }
+        else {
+            ctx.body = {
+                code:200,
+                message:'信息修改失败'
+            }
+        }
+    }
+    catch(error) {
+        console.log(error)
+        console.log('服务器出错')
+    }
+})
 
 module.exports=router;

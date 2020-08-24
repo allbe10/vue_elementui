@@ -9,8 +9,6 @@ export default {
 }
 </script>
 <style scoped>
-    .index_body {
-    }
     .idex_title {
         font-size:40px;
         color:#373d41;
